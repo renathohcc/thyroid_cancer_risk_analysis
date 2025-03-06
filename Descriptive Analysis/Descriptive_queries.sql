@@ -88,3 +88,48 @@ GROUP BY num_risk_factors
 ORDER BY num_risk_factors DESC;
 
 -- Distribution of TSH, T3 and T4. Existe extreme values?
+SELECT 
+    'TSH' AS hormone,
+    MIN(tsh_level) AS min_value,
+    MAX(tsh_level) AS max_value,
+    AVG(tsh_level) AS avg_value,
+    STDDEV(tsh_level) AS stddev_value
+FROM thyroid_db
+
+UNION ALL
+
+SELECT 
+    'T3',
+    MIN(t3_level),
+    MAX(t3_level),
+    AVG(t3_level),
+    STDDEV(t3_level)
+FROM thyroid_db
+
+UNION ALL
+
+SELECT 
+    'T4',
+    MIN(t4_level),
+    MAX(t4_level),
+    AVG(t4_level),
+    STDDEV(t4_level)
+FROM thyroid_db;
+
+-- Risk classification: What proportion of patients are classified as low, medium and high risk?
+SELECT 
+    thyroid_cancer_risk,
+    diagnosis,
+    COUNT(*) AS total_patients
+FROM 
+    thyroid_db
+GROUP BY thyroid_cancer_risk, diagnosis
+ORDER BY thyroid_cancer_risk, total_patients DESC;
+
+-- How many cases were diagnosed as benign vs. malignant
+SELECT 
+    diagnosis, COUNT(*) AS total
+FROM
+    thyroid_db
+GROUP BY diagnosis
+ORDER BY total DESC;
