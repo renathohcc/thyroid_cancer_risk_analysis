@@ -197,3 +197,44 @@ WHERE
         OR diabetes = 'y'
 GROUP BY risk_factors_combination
 ORDER BY percentage_malignant DESC , malignant_cases DESC;
+
+SELECT 
+    CONCAT(
+        CASE WHEN family_history = 'y' THEN 'FH, ' ELSE '' END,
+        CASE WHEN radiation_exposure = 'y' THEN 'RE, ' ELSE '' END,
+        CASE WHEN iodine_deficiency = 'y' THEN 'ID, ' ELSE '' END,
+        CASE WHEN smoking = 'y' THEN 'S, ' ELSE '' END,
+        CASE WHEN obesity = 'y' THEN 'O, ' ELSE '' END,
+        CASE WHEN diabetes = 'y' THEN 'D, ' ELSE '' END
+    ) AS risk_factors_combination_abbr,
+    
+    CONCAT(
+        CASE WHEN family_history = 'y' THEN 'Family History, ' ELSE '' END,
+        CASE WHEN radiation_exposure = 'y' THEN 'Radiation Exposure, ' ELSE '' END,
+        CASE WHEN iodine_deficiency = 'y' THEN 'Iodine Deficiency, ' ELSE '' END,
+        CASE WHEN smoking = 'y' THEN 'Smoking, ' ELSE '' END,
+        CASE WHEN obesity = 'y' THEN 'Obesity, ' ELSE '' END,
+        CASE WHEN diabetes = 'y' THEN 'Diabetes, ' ELSE '' END
+    ) AS risk_factors_combination_full,
+    
+    COUNT(*) AS total_patients,
+    
+    COUNT(CASE WHEN diagnosis = 'malignant' THEN 1 ELSE NULL END) AS malignant_cases,
+    
+    ROUND(
+        COUNT(CASE WHEN diagnosis = 'malignant' THEN 1 ELSE NULL END) / COUNT(*),
+        4
+    ) AS percentage_malignant
+
+FROM
+    thyroid_db
+WHERE
+    family_history = 'y'
+    OR radiation_exposure = 'y'
+    OR iodine_deficiency = 'y'
+    OR smoking = 'y'
+    OR obesity = 'y'
+    OR diabetes = 'y'
+
+GROUP BY risk_factors_combination_abbr, risk_factors_combination_full
+ORDER BY percentage_malignant DESC, malignant_cases DESC;
