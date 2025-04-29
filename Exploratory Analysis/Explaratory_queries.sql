@@ -238,3 +238,180 @@ WHERE
 
 GROUP BY risk_factors_combination_abbr, risk_factors_combination_full
 ORDER BY percentage_malignant DESC, malignant_cases DESC;
+
+-- Long table Hormone levels
+SELECT 
+    Patient_ID,
+    'TSH' AS hormone,
+    TSH_Level AS hormone_value,
+    Thyroid_Cancer_Risk
+FROM
+    thyroid_db
+UNION ALL
+SELECT 
+    Patient_ID,
+    'T3' AS hormone,
+    T3_Level AS hormone_value,
+    Thyroid_Cancer_Risk
+FROM
+    thyroid_db
+UNION ALL
+SELECT 
+    Patient_ID,
+    'T4' AS hormone,
+    T4_Level AS hormone_value,
+    Thyroid_Cancer_Risk
+FROM
+    thyroid_db;
+
+SELECT 
+    hormone,
+    Thyroid_Cancer_Risk,
+    ROUND(AVG(hormone_value), 2) AS avg_value,
+    MIN(hormone_value) AS min,
+    MAX(hormone_value) AS max,
+    COUNT(*) AS total_cases,
+    Diagnosis
+FROM
+    (SELECT 
+        'TSH' AS hormone,
+            Thyroid_Cancer_Risk,
+            TSH_Level AS hormone_value
+    FROM
+        thyroid_db
+    WHERE
+        TSH_Level IS NOT NULL UNION ALL SELECT 
+        'T3', Thyroid_Cancer_Risk, T3_Level
+    FROM
+        thyroid_db
+    WHERE
+        T3_Level IS NOT NULL UNION ALL SELECT 
+        'T4', Thyroid_Cancer_Risk, T4_Level
+    FROM
+        thyroid_db
+    WHERE
+        T4_Level IS NOT NULL) AS hormones
+GROUP BY hormone , Thyroid_Cancer_Risk
+ORDER BY hormone , CASE Thyroid_Cancer_Risk
+    WHEN 'low' THEN 1
+    WHEN 'medium' THEN 2
+    WHEN 'high' THEN 3
+END;
+
+-- Only malignant cases
+SELECT 
+    hormone,
+    Thyroid_Cancer_Risk,
+    ROUND(AVG(hormone_value), 2) AS avg_value,
+    MIN(hormone_value) AS min,
+    MAX(hormone_value) AS max,
+    COUNT(*) AS total_cases
+FROM
+    (SELECT 
+        'TSH' AS hormone,
+            Thyroid_Cancer_Risk,
+            TSH_Level AS hormone_value
+    FROM
+        thyroid_db
+    WHERE
+        Diagnosis = 'malignant' AND TSH_Level IS NOT NULL UNION ALL SELECT 
+        'T3', Thyroid_Cancer_Risk, T3_Level
+    FROM
+        thyroid_db
+    WHERE
+        Diagnosis = 'malignant' AND T3_Level IS NOT NULL UNION ALL SELECT 
+        'T4', Thyroid_Cancer_Risk, T4_Level
+    FROM
+        thyroid_db
+    WHERE
+       Diagnosis = 'malignant' AND T4_Level IS NOT NULL) AS hormones
+GROUP BY hormone , Thyroid_Cancer_Risk
+ORDER BY hormone , CASE Thyroid_Cancer_Risk
+    WHEN 'low' THEN 1
+    WHEN 'medium' THEN 2
+    WHEN 'high' THEN 3
+END;
+
+-- Benign vs Malignant cases hormones
+SELECT 
+    'Benign' AS diagnosis,
+    hormone,
+    Thyroid_Cancer_Risk,
+    ROUND(AVG(hormone_value), 2) AS avg_value,
+    MIN(hormone_value) AS min,
+    MAX(hormone_value) AS max,
+    COUNT(*) AS total_cases
+FROM (
+    SELECT 'TSH' AS hormone, Thyroid_Cancer_Risk, TSH_Level AS hormone_value
+    FROM thyroid_db
+    WHERE diagnosis = 'benign' AND TSH_Level IS NOT NULL
+
+    UNION ALL
+
+    SELECT 'T3', Thyroid_Cancer_Risk, T3_Level
+    FROM thyroid_db
+    WHERE diagnosis = 'benign' AND T3_Level IS NOT NULL
+
+    UNION ALL
+
+    SELECT 'T4', Thyroid_Cancer_Risk, T4_Level
+    FROM thyroid_db
+    WHERE diagnosis = 'benign' AND T4_Level IS NOT NULL
+) AS hormones_benign
+GROUP BY hormone, Thyroid_Cancer_Risk
+
+UNION ALL
+
+SELECT 
+    'Malignant' AS diagnosis,
+    hormone,
+    Thyroid_Cancer_Risk,
+    ROUND(AVG(hormone_value), 2) AS avg_value,
+    MIN(hormone_value) AS min,
+    MAX(hormone_value) AS max,
+    COUNT(*) AS total_casos
+FROM (
+    SELECT 'TSH' AS hormone, Thyroid_Cancer_Risk, TSH_Level AS hormone_value
+    FROM thyroid_db
+    WHERE diagnosis = 'malignant' AND TSH_Level IS NOT NULL
+
+    UNION ALL
+
+    SELECT 'T3', Thyroid_Cancer_Risk, T3_Level
+    FROM thyroid_db
+    WHERE diagnosis = 'malignant' AND T3_Level IS NOT NULL
+
+    UNION ALL
+
+    SELECT 'T4', Thyroid_Cancer_Risk, T4_Level
+    FROM thyroid_db
+    WHERE diagnosis = 'malignant' AND T4_Level IS NOT NULL
+) AS hormones_malign
+GROUP BY hormone, Thyroid_Cancer_Risk
+ORDER BY hormone, diagnosis,
+    CASE Thyroid_Cancer_Risk
+        WHEN 'Baixo' THEN 1
+        WHEN 'Médio' THEN 2
+        WHEN 'Alto' THEN 3
+    END;
+    
+-- Distribution by category
+SELECT 
+    'Gender' AS category,
+    Gender AS valor,
+    COUNT(*) AS total_cases
+FROM
+    thyroid_db
+WHERE
+    Gender IS NOT NULL
+GROUP BY Gender 
+UNION ALL SELECT 
+    'Ethnicity' AS category,
+    Ethnicity AS valor,
+    COUNT(*) AS total_casos
+FROM
+    thyroid_db
+WHERE
+    Ethnicity IS NOT NULL
+GROUP BY Ethnicity
+ORDER BY category , total_cases DESC;

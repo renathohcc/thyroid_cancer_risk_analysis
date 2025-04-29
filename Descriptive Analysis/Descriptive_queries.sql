@@ -92,29 +92,26 @@ SELECT
     'TSH' AS hormone,
     MIN(tsh_level) AS min_value,
     MAX(tsh_level) AS max_value,
-    AVG(tsh_level) AS avg_value,
+    ROUND(AVG(tsh_level), 2) AS avg_value,
     STDDEV(tsh_level) AS stddev_value
-FROM thyroid_db
-
-UNION ALL
-
-SELECT 
+FROM
+    thyroid_db 
+UNION ALL SELECT 
     'T3',
     MIN(t3_level),
     MAX(t3_level),
-    AVG(t3_level),
+    ROUND(AVG(t3_level), 2),
     STDDEV(t3_level)
-FROM thyroid_db
-
-UNION ALL
-
-SELECT 
+FROM
+    thyroid_db 
+UNION ALL SELECT 
     'T4',
     MIN(t4_level),
     MAX(t4_level),
-    AVG(t4_level),
+    ROUND(AVG(t4_level), 2),
     STDDEV(t4_level)
-FROM thyroid_db;
+FROM
+    thyroid_db;
 
 -- Risk classification: What proportion of patients are classified as low, medium and high risk?
 SELECT 
