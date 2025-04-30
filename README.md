@@ -41,6 +41,8 @@ The data used in this study was obtained from a publicly available dataset on th
 - Most common ethnicities: **Caucasian (29.93%)** and **Asian (25.04%)**.
 - **India** showed the highest malignancy rate among analyzed countries: **32.89%**.
 
+![Page 02: Detailed Analysis per factor](Resources/Page%202.png)
+
 ### Exploratory Analysis:
 - **Age vs Risk**: The average risk level remained constant across all age ranges, indicating **no direct correlation** with the diagnosis.
 - **Nodule Size vs Diagnosis**: Malignancy probability remained constant across all nodule size ranges, suggesting that **size alone is not a determining factor**.
@@ -50,16 +52,20 @@ The data used in this study was obtained from a publicly available dataset on th
   - **Radiation Exposure**
   - **Iodine Deficiency**
 
-> Images of the dashboard with active filters were included to illustrate the main analyses.
+---
 
-## 🤝 Conclusion
+## Conclusion
 The analysis revealed no direct correlation between hormone levels or patient age and a **thyroid cancer diagnosis**. Likewise, nodule size alone did not prove relevant. However, combinations of multiple risk factors — especially family history, radiation exposure, and iodine deficiency — showed stronger associations with malignancy.
 
 This project emphasizes the importance of multidimensional analysis to better understand oncological risk and demonstrates how interactive dashboards can support data-driven decision-making.
 
-## 🔗 Dashboard Access
-To access the published version of the dashboard, click [here](#) *(link to be inserted)*
+---
 
-## ⚖️ License
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
+## Dashboard Access
+To access the published version of the dashboard, click [here](https://app.powerbi.com/view?r=eyJrIjoiOTJkNDFhZmYtYzc0MS00MmRjLWFjYWUtNjFiZGM5MGRhZDQ3IiwidCI6IjBlZjRjMzY5LTE5NmUtNDQ2Ny1hNDY2LTZkNTJmZWFjYjNkYyJ9) 
+
+---
+
+## 📜 License
+This project is open-source and available under the MIT License.
 
