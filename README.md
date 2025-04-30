@@ -69,3 +69,8 @@ To access the published version of the dashboard, click [here](https://app.power
 ## 📜 License
 This project is open-source and available under the MIT License.
 
+---
+
+### 🎯 Author
+Developed by **Renatho Campos**  
+📧 Contact: renathohcc@hotmail.com
