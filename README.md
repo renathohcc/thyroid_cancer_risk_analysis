@@ -31,7 +31,7 @@ The data used in this study was obtained from a publicly available dataset on th
 
 ## Extracted Insights
 
-![Page 01: KPIs, Distributions and Initial Analysis](Resources/Page 1.png)
+![Page 01: KPIs, Distributions and Initial Analysis](Resources/Page%201.png)
 
 ### General Data Overview:
 - 23.27% of the cases studied resulted in a **malignant thyroid cancer diagnosis**.
