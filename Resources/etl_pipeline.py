@@ -7,9 +7,9 @@ df = pd.read_csv(file_path)
 
 
 # 1. Remove doubles
-print(f"Linhas antes da remoção de duplicatas: {len(df)}")
+print(f"Quantity of lines before: {len(df)}")
 df = df.drop_duplicates(subset='Patient_ID')
-print(f"Linhas após a remoção de duplicatas: {len(df)}")
+print(f"Quantity of lines after: {len(df)}")
 
 # 2. Standardize texts
 cols_to_strip = ['Gender', 'Country', 'Ethnicity', 'Family_History', 'Radiation_Exposure',
